@@ -12,7 +12,7 @@ exports[`生成html注入script 添加script标签到head 1`] = `
     <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" />
     <meta name=\\"renderer\\" content=\\"webkit\\" />
     <meta name=\\"force-rendering\\" content=\\"webkit\\" />
-  <script src=\\"http://unpkg.jd.com/lodash@4.17.20/lodash.js\\" type=\\"module\\"></script></head>
+  <script src=\\"http://unpkg.jd.com/lodash@4.17.20/lodash.js\\" preload></script><link rel=\\"stylesheet\\" href=\\"http://unpkg.jd.com/animate.css@4.1.0/animate.css\\"></head>
   <body>
   <script src=\\"main.js\\"></script></body>
 </html>

@@ -3,7 +3,7 @@ import * as path from 'path'
 
 import HtmlWebpackPlugin = require('html-webpack-plugin')
 import webpack from 'webpack'
-import { HtmlWebpackLoadUnpkgScriptsPlugin } from '../src/index'
+import { HtmlWebpackInjectExternalsPlugin } from '../src/index'
 
 
 const resolveRoot = (str: string) => path.resolve(__dirname, '..', str)
@@ -25,7 +25,7 @@ describe('生成html注入script', () => {
         //   asyncWebAssembly: true,
         // },
         plugins: [
-          new HtmlWebpackLoadUnpkgScriptsPlugin({
+          new HtmlWebpackInjectExternalsPlugin({
             externals: {
               lodash: '_',
             },
@@ -35,8 +35,12 @@ describe('生成html注入script', () => {
                 name: 'lodash',
                 path: '/lodash.js',
                 attributes: {
-                  type: 'module',
+                  preload: true,
                 },
+              },
+              {
+                name: 'animate.css',
+                fullPath: 'http://unpkg.jd.com/animate.css@4.1.0/animate.css',
               },
             ],
           }),

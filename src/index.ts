@@ -17,7 +17,7 @@ export type PACKAGE_OPTION = {
   path?: string
   /** when has fullPath, all other props will be ignored */
   fullPath?: string
-  attributes?: Record<string, string>
+  attributes?: Record<string, string | boolean>
 }
 
 export interface OPTION {
@@ -26,11 +26,11 @@ export interface OPTION {
   }
   host?: string
   packages: PACKAGE_OPTION[]
-  attributes?: Record<string, string>
+  attributes?: Record<string, string | boolean>
 }
 
-export class HtmlWebpackLoadUnpkgScriptsPlugin {
-  public name = 'HtmlWebpackLoadUnpkgScriptsPlugin'
+export class HtmlWebpackInjectExternalsPlugin {
+  public name = 'HtmlWebpackInjectExternalsPlugin'
 
   public options: OPTION
 
@@ -84,23 +84,23 @@ export class HtmlWebpackLoadUnpkgScriptsPlugin {
     }
     const deps = this.options.packages.map(getUmdPath)
     const tags = deps.map(d => {
-      const result: HtmlTagObject = d.url.endsWith('.js')
+      const result: HtmlTagObject = d.url.endsWith('.css')
         ? {
-            tagName: 'script',
-            voidTag: false,
-            attributes: {
-              defer: false,
-              src: d.url,
-              ...this.options.attributes,
-              ...d.attributes,
-            },
-          }
-        : {
             tagName: 'link',
             voidTag: true,
             attributes: {
               rel: 'stylesheet',
               href: d.url,
+              ...this.options.attributes,
+              ...d.attributes,
+            },
+          }
+        : {
+            tagName: 'script',
+            voidTag: false,
+            attributes: {
+              defer: false,
+              src: d.url,
               ...this.options.attributes,
               ...d.attributes,
             },

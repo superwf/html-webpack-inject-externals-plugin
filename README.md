@@ -1,21 +1,25 @@
-# webpack 插件
+# auto inject your externals scripts and links to your html by webpack 
 
-## HtmlWebpackLoadUnpkgScriptsPlugin
+## HtmlWebpackInjectExternalsPlugin
 
-### 安装
+### Install
 
 ```
-yarn add html-webpack-load-unpkg-scripts-plugin
+yarn add html-webpack-inject-externals-plugin
 ```
 
-### 介绍
+### Intro
 
-根据配置，将需要在应用运行之前加载的所有第三方库在 **运行时** ，提前注入到页面中，并在所有依赖载入完毕后执行应用。
+根据当前`package.json`依赖第三方库，将需要在应用运行之前加载的所有第三方库注入到html页面中。
+
+目前支持依据加载路径的后缀名生成标签，`.css`生成`link`标签，其他的都生成script标签。
 
 ### Example
 
 ```javascript
-  const isProd = process.env.NODE_ENV === 'production'
+const { HtmlWebpackInjectExternalsPlugin } from 'html-webpack-inject-externals-plugin'
+const isProd = process.env.NODE_ENV === 'production'
+
   ...
   plugins: [
     new LoadExternalDependenciesWebpackPlugin({
@@ -75,6 +79,10 @@ import { LoadExternalDependenciesWebpackPlugin } from '@rmb/webpack-plugin/src/L
           name: 'history',
           path: '/umd/history.js',
         },
+        {
+          name: 'animate.css',
+          fullPath: 'http://unpkg.jd.com/animate.css@4.1.0/animate.css',
+        },
       ],
     })
   ]
@@ -95,11 +103,6 @@ interface OPTION {
   // 载入文件域名，例如https://unpkg.com
   host?: string
 
-  // 每个外部包是否在载入后，使用带版本号的独立名称。考虑到多应用共同部署可能有不同版本冲突问题。
-  // 默认为false，如果为true，则例如使用React 16.13.1版本
-  // 全局React会被透明命名为 React16131，与其他依赖全局的React相区分。
-  withVersionGlobalVarname?: boolean
-
   // 每个外部依赖的单独配置数组
   packages: {
     // 覆盖全局的host配置
@@ -113,17 +116,13 @@ interface OPTION {
     // 没有加载路径时可为空
     path?: string
 
-    // 覆盖全局的withVersionGlobalVarname配置
-    withVersionGlobalVarname?: boolean
-
     // 该选项应为带域名路径与其他所有url参数的万丈路径模式。
     // 当使用该选项时，host与path将被忽略，与当前项目package.json中依赖的版本绑定机制也将是小，该url将被直接使用作为script的src属性。
     // 例如: http://cdnjs.com/react/react.min.prodjction.js
     fullPath?: string
+
+    // 一些自定义属性，例如script标签的 type: 'module'
+    attributes?: Record<string, string>
   }[]
 }
 ```
-
-### TODO
-
-由于该插件修改了入口文件代码，但没有找到webpack重新生成`source map`的相关api，因此入口文件代码通过`source map`定位会有一行的偏差。待之后找到`source map`如何重新生成的方法之后再修正。

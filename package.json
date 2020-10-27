@@ -1,5 +1,5 @@
 {
-  "name": "html-webpack-load-unpkg-scripts-plugin",
+  "name": "html-webpack-inject-externals-plugin",
   "version": "0.1.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -29,9 +29,14 @@
   "files": [
     "lib"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superwf/html-webpack-inject-externals-plugin.git"
+  },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "chalk": "^4.1.0",

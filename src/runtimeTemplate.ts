@@ -2,7 +2,7 @@ export type DEP = {
   url: string
   version?: string
   varName?: string
-  attributes?: Record<string, string>
+  attributes?: Record<string, string | boolean>
 }
 
 export const globalName = '__LOAD_EXTERNAL_DEPENDENCIES_WEBPACK_PLUGIN__'

@@ -54,6 +54,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 💡 必须与`html-webpack-plugin`一起使用。
 
+💡 `html-webpack-plugin`版本需要 > 4，3版本不灵。
+
 #### Javascript
 
 ```javascript

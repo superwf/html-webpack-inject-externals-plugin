@@ -1,5 +1,7 @@
 # HtmlWebpackInjectExternalsPlugin
 
+根据外部依赖配置，自动生成并插入script或link标签。
+
 ## 介绍
 
 与`html-webpack-plugin`一起使用，将项目中的外部依赖自动按版本号生成script或link标签，注入html文件的header中。
@@ -50,6 +52,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 ### 在webpack配置文件中引入插件
 
+💡 必须与`html-webpack-plugin`一起使用。
+
 #### Javascript
 
 ```javascript
@@ -67,6 +71,10 @@ import { HtmlWebpackInjectExternalsPlugin } from 'html-webpack-inject-externals-
 ```javascript
   plugins: [
     ...,
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: './public/index.html',
+    }),
     new HtmlWebpackInjectExternalsPlugin({
       // externals项，非必须，可以写在这里，也可以直接写在webpack的externals中。
       externals: {

@@ -21,7 +21,7 @@ export type PACKAGE_OPTION = {
 }
 
 export interface OPTION {
-  externals: {
+  externals?: {
     [packageName: string]: string | string[]
   }
   host?: string
@@ -39,8 +39,10 @@ export class HtmlWebpackInjectExternalsPlugin {
   }
 
   public apply(compiler: Compiler) {
-    const externals = mergeExternals(this.options.externals, compiler.options.externals)
-    compiler.options.externals = externals!
+    if (this.options.externals) {
+      const externals = mergeExternals(this.options.externals, compiler.options.externals)
+      compiler.options.externals = externals
+    }
 
     const generalHost = this.options.host
     const getUmdPath = (pkg: PACKAGE_OPTION): DEP => {

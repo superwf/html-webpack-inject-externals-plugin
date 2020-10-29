@@ -1,20 +1,18 @@
-# auto inject your externals scripts and links to your html by webpack 
+# HtmlWebpackInjectExternalsPlugin
 
-## HtmlWebpackInjectExternalsPlugin
+## 介绍
 
-### Install
+与`html-webpack-plugin`一起使用，将项目中的外部依赖自动按版本号生成script或link标签，注入html文件的header中。
+
+目前支持依据加载路径的后缀名生成标签，`.css`生成`link`标签，其他的都生成script标签。
+
+## 安装
 
 ```
 yarn add html-webpack-inject-externals-plugin
 ```
 
-### Intro
-
-根据当前`package.json`依赖第三方库，将需要在应用运行之前加载的所有第三方库注入到html页面中。
-
-目前支持依据加载路径的后缀名生成标签，`.css`生成`link`标签，其他的都生成script标签。
-
-### Example
+## 示例代码
 
 ```javascript
 const { HtmlWebpackInjectExternalsPlugin } from 'html-webpack-inject-externals-plugin'
@@ -22,7 +20,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
   ...
   plugins: [
-    new LoadExternalDependenciesWebpackPlugin({
+    new HtmlWebpackInjectExternalsPlugin({
       externals: {
         history: 'History',
       },
@@ -48,32 +46,33 @@ const isProd = process.env.NODE_ENV === 'production'
 
 其中的版本号以当前项目所依赖的版本号保持一致，且会将webpack入口脚本延迟加载到该脚本加载完毕后执行。
 
-### 使用方法
+## 使用方法
 
-#### 在webpack配置文件中引入插件
+### 在webpack配置文件中引入插件
 
-##### Javascript
+#### Javascript
 
 ```javascript
-import { LoadExternalDependenciesWebpackPlugin } from '@rmb/webpack-plugin'
+const { HtmlWebpackInjectExternalsPlugin } = require('html-webpack-inject-externals-plugin')
 ```
 
-##### Typescript
+#### Typescript
 
 ```typescript
-import { LoadExternalDependenciesWebpackPlugin } from '@rmb/webpack-plugin/src/LoadExternalDependenciesWebpackPlugin'
+import { HtmlWebpackInjectExternalsPlugin } from 'html-webpack-inject-externals-plugin'
 ```
 
-##### 添加到plugins项
+#### 添加到plugins项
 
 ```javascript
   plugins: [
     ...,
-    new LoadExternalDependenciesWebpackPlugin({
+    new HtmlWebpackInjectExternalsPlugin({
+      // externals项，非必须，可以写在这里，也可以直接写在webpack的externals中。
       externals: {
         history: 'History',
       },
-      host: 'http://unpkg.jd.com',
+      host: 'https://unpkg.com',
       packages: [
         {
           name: 'history',
@@ -96,16 +95,16 @@ interface OPTION {
   // react: 'React'
   // 'antd/lib/locale/zh_CN': ['antd', 'locales', 'zh_CN'],
   // 该配置会与webpack自身的externals配置合并。
-  externals: {
+  externals?: {
     [packageName: string]: string | string[]
   }
 
-  // 载入文件域名，例如https://unpkg.com
+  // 载入unpkg的域名，例如https://unpkg.com
   host?: string
 
   // 每个外部依赖的单独配置数组
   packages: {
-    // 覆盖全局的host配置
+    // 覆盖上面全局的host配置
     host?: string
 
     // 包名称
@@ -113,16 +112,16 @@ interface OPTION {
 
     // 包内文件路径，可自行根据env添加对应的文件。例如:
     // path: `/umd/react.${isProd ? 'production.min' : 'development'}.js`
-    // 没有加载路径时可为空
+    // 不需要加载路径时可为空
     path?: string
 
-    // 该选项应为带域名路径与其他所有url参数的万丈路径模式。
-    // 当使用该选项时，host与path将被忽略，与当前项目package.json中依赖的版本绑定机制也将是小，该url将被直接使用作为script的src属性。
+    // 该选项应为带域名、路径与其他所有url参数的完整路径模式。
+    // 💡 当使用fullPath选项时，上面的host与path将被忽略，与当前项目package.json中依赖的版本绑定机制也将失效，该url将被直接使用作为script的src属性，或link的href属性。
     // 例如: http://cdnjs.com/react/react.min.prodjction.js
     fullPath?: string
 
-    // 一些自定义属性，例如script标签的 type: 'module'
-    attributes?: Record<string, string>
+    // 一些自定义标签属性，例如script标签的: attributes: { type: 'module', async: true }
+    attributes?: Record<string, string | boolean>
   }[]
 }
 ```

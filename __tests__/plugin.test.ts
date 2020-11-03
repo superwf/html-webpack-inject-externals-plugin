@@ -1,10 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
-
-import HtmlWebpackPlugin = require('html-webpack-plugin')
 import webpack from 'webpack'
 import { HtmlWebpackInjectExternalsPlugin } from '../src/index'
 
+import HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const resolveRoot = (str: string) => path.resolve(__dirname, '..', str)
 
@@ -16,14 +15,9 @@ describe('生成html注入script', () => {
         entry: resolveRoot('__tests__/fixture/index.js'),
         output: {
           filename: '[name].js',
-          // module: true,
+          path: resolveRoot('__tests__/output'),
+          publicPath: '/',
         },
-        // experiments: {
-        //   outputModule: true,
-        //   syncWebAssembly: true,
-        //   topLevelAwait: true,
-        //   asyncWebAssembly: true,
-        // },
         plugins: [
           new HtmlWebpackInjectExternalsPlugin({
             externals: {
@@ -45,14 +39,16 @@ describe('生成html注入script', () => {
             ],
           }),
           new HtmlWebpackPlugin({
-            inject: true,
-            template: resolveRoot('__tests__/fixture/index.html'),
+            cache: false,
+            inject: 'body',
+            filename: 'index.html',
+            template: resolveRoot('public/index.html'),
           }),
         ],
       },
       err => {
         expect(err).toBe(null)
-        expect(fs.readFileSync('./dist/index.html', 'utf-8')).toMatchSnapshot()
+        expect(fs.readFileSync(resolveRoot('__tests__/output/index.html'), 'utf-8')).toMatchSnapshot()
         done()
       },
     )

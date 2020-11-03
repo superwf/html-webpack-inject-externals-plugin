@@ -1,1 +1,5 @@
-export const name = 'test'
+export const run = () => {
+  console.log('running')
+}
+
+run()

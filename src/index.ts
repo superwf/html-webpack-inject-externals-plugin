@@ -41,7 +41,9 @@ export class HtmlWebpackInjectExternalsPlugin {
   public apply(compiler: Compiler) {
     if (this.options.externals) {
       const externals = mergeExternals(this.options.externals, compiler.options.externals)
-      compiler.options.externals = externals
+      if (externals) {
+        compiler.options.externals = externals
+      }
     }
 
     const generalHost = this.options.host

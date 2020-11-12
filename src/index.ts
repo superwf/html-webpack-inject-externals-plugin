@@ -2,7 +2,7 @@
 import { existsSync } from 'fs'
 import { join as pathJoin } from 'path'
 
-import { bgRgb, rgb } from 'chalk'
+import { rgb } from 'chalk'
 import type { HtmlTagObject } from 'html-webpack-plugin'
 import HtmlWebpackPlugin = require('html-webpack-plugin')
 import urlJoin from 'url-join'
@@ -115,6 +115,7 @@ export class HtmlWebpackInjectExternalsPlugin {
     compiler.hooks.compilation.tap(this.name, compilation => {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(this.name, data => {
         /** remove repeat */
+        const toPrependTags: any = []
         tags.reverse().forEach(tag => {
           const url = tag.tagName === 'script' ? tag.attributes.src : tag.attributes.href
           const exist = data.headTags.some(headTag => {
@@ -123,11 +124,14 @@ export class HtmlWebpackInjectExternalsPlugin {
           })
           if (!exist) {
             data.headTags.unshift(tag)
+            toPrependTags.push(tag)
           }
         })
 
-        console.log(rgb(145, 213, 255)(`${this.name} prepend these resource in your html head:`))
-        console.log(bgRgb(62, 44, 127)(deps.map(d => d.url).join('\n')))
+        console.log(rgb(73, 204, 144)(`[${this.name}] has prepend these resources in your html head:`))
+        toPrependTags.forEach((tag: any) => {
+          console.log(rgb(137, 191, 4)(JSON.stringify(tag)))
+        })
         return data
       })
     })

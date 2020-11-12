@@ -43,6 +43,7 @@ describe('生成html注入script', () => {
             inject: 'body',
             filename: 'index.html',
             template: resolveRoot('public/index.html'),
+            scriptLoading: 'blocking',
           }),
         ],
       },

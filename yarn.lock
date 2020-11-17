@@ -3500,10 +3500,10 @@ html-minifier-terser@^5.0.1:
     relateurl "^0.2.7"
     terser "^4.6.3"
 
-html-webpack-plugin@^5.0.0-alpha.10:
-  version "5.0.0-alpha.10"
-  resolved "http://registry.m.jd.com/html-webpack-plugin/download/html-webpack-plugin-5.0.0-alpha.10.tgz#edc754eb32240c4a54b82b4d0a1df1bfa045b27c"
-  integrity sha1-7cdU6zIkDEpUuCtNCh3xv6BFsnw=
+html-webpack-plugin@^5.0.0-alpha.14:
+  version "5.0.0-alpha.14"
+  resolved "http://registry.m.jd.com/html-webpack-plugin/download/html-webpack-plugin-5.0.0-alpha.14.tgz#9c7f10da25371d13d76ad159923e49aa678a9542"
+  integrity sha1-nH8Q2iU3HRPXatFZkj5JqmeKlUI=
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
     "@types/tapable" "^1.0.5"
@@ -7157,10 +7157,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@^5.3.2:
-  version "5.3.2"
-  resolved "http://registry.m.jd.com/webpack/download/webpack-5.3.2.tgz#f88f6f2c54eaa1f68c8f37d8984657eaf68b00f0"
-  integrity sha1-+I9vLFTqofaMjzfYmEZX6vaLAPA=
+webpack@^5.4.0:
+  version "5.4.0"
+  resolved "http://registry.m.jd.com/webpack/download/webpack-5.4.0.tgz#4fdc6ec8a0ff9160701fb8f2eb8d06b33ecbae0f"
+  integrity sha1-T9xuyKD/kWBwH7jy640Gsz7Lrg8=
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.45"

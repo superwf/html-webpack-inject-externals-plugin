@@ -1,6 +1,6 @@
 {
   "name": "html-webpack-inject-externals-plugin",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
@@ -50,9 +50,9 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "html-webpack-plugin": "^4.5.0",
+    "html-webpack-plugin": "^5.0.0-alpha.14",
     "lodash": "^4.17.20",
     "url-join": "^4.0.1",
-    "webpack": "4.44.2"
+    "webpack": "^5.4.0"
   }
 }

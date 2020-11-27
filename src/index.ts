@@ -6,7 +6,7 @@ import { rgb } from 'chalk'
 import type { HtmlTagObject } from 'html-webpack-plugin'
 import HtmlWebpackPlugin = require('html-webpack-plugin')
 import urlJoin from 'url-join'
-import type { Compiler } from 'webpack'
+import type { Compiler, WebpackPluginInstance } from 'webpack'
 
 import { mergeExternals } from './mergeExternals'
 import { DEP } from './runtimeTemplate'
@@ -29,7 +29,7 @@ export interface OPTION {
   attributes?: Record<string, string | boolean>
 }
 
-export class HtmlWebpackInjectExternalsPlugin {
+export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
   public name = 'HtmlWebpackInjectExternalsPlugin'
 
   public options: OPTION

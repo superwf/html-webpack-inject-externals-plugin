@@ -6648,6 +6648,11 @@ tapable@2.0.0, tapable@^2.0.0:
   resolved "http://registry.m.jd.com/tapable/download/tapable-2.0.0.tgz#a49c3d6a8a2bb606e7db372b82904c970d537a08"
   integrity sha1-pJw9aoortgbn2zcrgpBMlw1Tegg=
 
+tapable@^2.1.1:
+  version "2.1.1"
+  resolved "http://registry.m.jd.com/tapable/download/tapable-2.1.1.tgz#b01cc1902d42a7bb30514e320ce21c456f72fd3f"
+  integrity sha1-sBzBkC1Cp7swUU4yDOIcRW9y/T8=
+
 term-size@^2.1.0:
   version "2.2.1"
   resolved "http://registry.m.jd.com/term-size/download/term-size-2.2.1.tgz#2a6a54840432c2fb6320fea0f415531e90189f54"
@@ -7157,10 +7162,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@^5.4.0:
-  version "5.4.0"
-  resolved "http://registry.m.jd.com/webpack/download/webpack-5.4.0.tgz#4fdc6ec8a0ff9160701fb8f2eb8d06b33ecbae0f"
-  integrity sha1-T9xuyKD/kWBwH7jy640Gsz7Lrg8=
+webpack@^5.8.0:
+  version "5.8.0"
+  resolved "http://registry.m.jd.com/webpack/download/webpack-5.8.0.tgz#65f00a181708279ff982c2d7338e1dd5505364c4"
+  integrity sha1-ZfAKGBcIJ5/5gsLXM44d1VBTZMQ=
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.45"
@@ -7182,7 +7187,7 @@ webpack@^5.4.0:
     neo-async "^2.6.2"
     pkg-dir "^4.2.0"
     schema-utils "^3.0.0"
-    tapable "^2.0.0"
+    tapable "^2.1.1"
     terser-webpack-plugin "^5.0.3"
     watchpack "^2.0.0"
     webpack-sources "^2.1.1"

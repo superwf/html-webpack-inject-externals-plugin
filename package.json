@@ -53,6 +53,6 @@
     "html-webpack-plugin": "^5.0.0-alpha.14",
     "lodash": "^4.17.20",
     "url-join": "^4.0.1",
-    "webpack": "^5.4.0"
+    "webpack": "^5.8.0"
   }
 }

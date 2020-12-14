@@ -29,7 +29,9 @@
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "webpack": "^5.8.0",
+    "html-webpack-plugin": "^5.0.0-alpha.14"
   },
   "files": [
     "lib"
@@ -50,9 +52,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "html-webpack-plugin": "^5.0.0-alpha.14",
     "lodash": "^4.17.20",
-    "url-join": "^4.0.1",
-    "webpack": "^5.8.0"
+    "url-join": "^4.0.1"
   }
 }

@@ -8,46 +8,20 @@ import HtmlWebpackPlugin = require('html-webpack-plugin')
 import urlJoin from 'url-join'
 import type { Compiler, WebpackPluginInstance } from 'webpack'
 
-import { mergeExternals } from './mergeExternals'
-import { DEP } from './runtimeTemplate'
-
-export type PACKAGE_OPTION = {
-  host?: string
-  name: string
-  path?: string
-  /** when has fullPath, all other props will be ignored */
-  fullPath?: string
-  attributes?: Record<string, string | boolean>
-}
-
-export interface OPTION {
-  externals?: {
-    [packageName: string]: string | string[]
-  }
-  host?: string
-  packages: PACKAGE_OPTION[]
-  attributes?: Record<string, string | boolean>
-}
+import type { PackageOption, PackageTagAttribute, PluginOption } from './type'
 
 export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
   public name = 'HtmlWebpackInjectExternalsPlugin'
 
-  public options: OPTION
+  public options: PluginOption
 
-  constructor(options: OPTION) {
+  constructor(options: PluginOption) {
     this.options = options
   }
 
   public apply(compiler: Compiler) {
-    if (this.options.externals) {
-      const externals = mergeExternals(this.options.externals, compiler.options.externals)
-      if (externals) {
-        compiler.options.externals = externals
-      }
-    }
-
     const generalHost = this.options.host
-    const getUmdPath = (pkg: PACKAGE_OPTION): DEP => {
+    const getUmdPath = (pkg: PackageOption): PackageTagAttribute => {
       const { host, path, fullPath, name } = pkg
       if (fullPath) {
         return {
@@ -55,7 +29,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
           attributes: pkg.attributes,
         }
       }
-      let pkgInfo: any = {}
+      let pkgInfo = {} as any
       /** mono packages project need to inspact node_modules in more place */
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require,import/no-dynamic-require
@@ -66,7 +40,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
           // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require,import/no-dynamic-require
           pkgInfo = require(currentPathPkgPath)
         } else {
-          throw new Error(`package ${name} missing umd path`)
+          throw new Error(`get package ${name} package.json failed`)
         }
       }
       const { version, unpkg, browser, umd } = pkgInfo
@@ -84,10 +58,11 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
         url,
         version,
         attributes: pkg.attributes,
+        afterInjectTag: pkg.afterInjectTag,
       }
     }
     const deps = this.options.packages.map(getUmdPath)
-    const tags = deps.map(d => {
+    const tags = deps.reduce<HtmlTagObject[]>((r, d) => {
       const result: HtmlTagObject = d.url.endsWith('.css')
         ? {
             tagName: 'link',
@@ -109,8 +84,12 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
               ...d.attributes,
             },
           }
-      return result
-    })
+      r.push(result)
+      if (d.afterInjectTag) {
+        r.push(d.afterInjectTag)
+      }
+      return r
+    }, [])
 
     compiler.hooks.compilation.tap(this.name, compilation => {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(this.name, data => {

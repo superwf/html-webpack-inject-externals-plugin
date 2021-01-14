@@ -42,6 +42,16 @@ module.exports = {
         less: 'always',
       },
     ],
+    'sort-imports': [
+      'error',
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        // memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+        allowSeparatedGroups: false,
+      },
+    ],
     'import/order': [
       'error',
       {
@@ -72,8 +82,11 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }],
+    '@typescript-eslint/consistent-type-imports': 'error',
 
     'import/no-cycle': 0,
+    /** let ts resolve import */
+    'import/no-unresolved': 0,
     'import/no-extraneous-dependencies': [
       'error',
       {

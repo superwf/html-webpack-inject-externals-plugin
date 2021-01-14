@@ -14,10 +14,6 @@
 /*!************************************!*\
   !*** ./__tests__/fixture/index.js ***!
   \************************************/
-/*! namespace exports */
-/*! export run [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"run\": () => /* binding */ run\n/* harmony export */ });\nconst run = () => {\n  console.log('running')\n}\n\nrun()\n\n\n//# sourceURL=webpack://html-webpack-inject-externals-plugin/./__tests__/fixture/index.js?");

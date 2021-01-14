@@ -1,9 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import webpack from 'webpack'
-import { HtmlWebpackInjectExternalsPlugin } from '../src/index'
 
-import HtmlWebpackPlugin = require('html-webpack-plugin')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import webpack from 'webpack'
+
+import { HtmlWebpackInjectExternalsPlugin } from '../src/index'
 
 const resolveRoot = (str: string) => path.resolve(__dirname, '..', str)
 
@@ -18,11 +19,11 @@ describe('生成html注入script', () => {
           path: resolveRoot('__tests__/output'),
           publicPath: '/',
         },
+        externals: {
+          lodash: '_',
+        },
         plugins: [
           new HtmlWebpackInjectExternalsPlugin({
-            externals: {
-              lodash: '_',
-            },
             host: 'http://unpkg.jd.com',
             packages: [
               {
@@ -30,6 +31,14 @@ describe('生成html注入script', () => {
                 path: '/lodash.js',
                 attributes: {
                   preload: true,
+                },
+                afterInjectTag: {
+                  tagName: 'script',
+                  innerHTML: 'const l = _',
+                  voidTag: false,
+                  attributes: {
+                    type: 'javascript',
+                  },
                 },
               },
               {

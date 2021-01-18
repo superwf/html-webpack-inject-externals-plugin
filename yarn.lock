@@ -2153,6 +2153,16 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+cp-file@^9.0.0:
+  version "9.0.0"
+  resolved "http://registry.m.jd.com/cp-file/download/cp-file-9.0.0.tgz#11986b27fd0ea7e6eadaf8a86cf16ba7e9b830ce"
+  integrity sha1-EZhrJ/0Op+bq2viobPFrp+m4MM4=
+  dependencies:
+    graceful-fs "^4.1.2"
+    make-dir "^3.0.0"
+    nested-error-stacks "^2.0.0"
+    p-event "^4.1.0"
+
 create-require@^1.1.0:
   version "1.1.1"
   resolved "http://registry.m.jd.com/create-require/download/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
@@ -5099,6 +5109,11 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "http://registry.m.jd.com/neo-async/download/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
+nested-error-stacks@^2.0.0:
+  version "2.1.0"
+  resolved "http://registry.m.jd.com/nested-error-stacks/download/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
+  integrity sha1-D73PPhP+SZR4EoBST4uWsM3/nGE=
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "http://registry.m.jd.com/nice-try/download/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -5381,6 +5396,13 @@ p-each-series@^2.1.0:
   resolved "http://registry.m.jd.com/p-each-series/download/p-each-series-2.2.0.tgz#105ab0357ce72b202a8a8b94933672657b5e2a9a"
   integrity sha1-EFqwNXznKyAqiouUkzZyZXteKpo=
 
+p-event@^4.1.0:
+  version "4.2.0"
+  resolved "http://registry.m.jd.com/p-event/download/p-event-4.2.0.tgz#af4b049c8acd91ae81083ebd1e6f5cae2044c1b5"
+  integrity sha1-r0sEnIrNka6BCD69Hm9criBEwbU=
+  dependencies:
+    p-timeout "^3.1.0"
+
 p-finally@^1.0.0:
   version "1.0.0"
   resolved "http://registry.m.jd.com/p-finally/download/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
@@ -5434,6 +5456,13 @@ p-locate@^5.0.0:
   integrity sha1-g8gxXGeFAF470CGDlBHJ4RDm2DQ=
   dependencies:
     p-limit "^3.0.2"
+
+p-timeout@^3.1.0:
+  version "3.2.0"
+  resolved "http://registry.m.jd.com/p-timeout/download/p-timeout-3.2.0.tgz#c7e17abc971d2a7962ef83626b35d635acf23dfe"
+  integrity sha1-x+F6vJcdKnli74NiazXWNazyPf4=
+  dependencies:
+    p-finally "^1.0.0"
 
 p-try@^1.0.0:
   version "1.0.0"

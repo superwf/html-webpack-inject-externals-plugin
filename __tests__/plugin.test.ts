@@ -24,15 +24,28 @@ describe('生成html注入script', () => {
         },
         plugins: [
           new HtmlWebpackInjectExternalsPlugin({
-            host: 'http://unpkg.jd.com',
+            host: 'https://unpkg.com',
+            // local: true,
             packages: [
+              {
+                name: 'url-join',
+                path: '/lib/url-join.js',
+                injectBefore: {
+                  tagName: 'script',
+                  innerHTML: 'if (typeof urljoin === undefined) { console.log("urljoin not found") }',
+                  voidTag: false,
+                  attributes: {
+                    type: 'javascript',
+                  },
+                },
+              },
               {
                 name: 'lodash',
                 path: '/lodash.js',
                 attributes: {
                   preload: true,
                 },
-                afterInjectTag: {
+                injectAfter: {
                   tagName: 'script',
                   innerHTML: 'const l = _',
                   voidTag: false,
@@ -43,7 +56,7 @@ describe('生成html注入script', () => {
               },
               {
                 name: 'animate.css',
-                fullPath: 'http://unpkg.jd.com/animate.css@4.1.0/animate.css',
+                fullPath: 'https://unpkg.com/animate.css@4.1.0/animate.css',
               },
             ],
           }),

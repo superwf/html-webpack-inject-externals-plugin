@@ -3,6 +3,7 @@ import { existsSync } from 'fs'
 import { join as pathJoin } from 'path'
 
 import { rgb } from 'chalk'
+import cpfile from 'cp-file'
 import type { HtmlTagObject } from 'html-webpack-plugin'
 import HtmlWebpackPlugin = require('html-webpack-plugin')
 import urlJoin from 'url-join'
@@ -21,12 +22,14 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
 
   public apply(compiler: Compiler) {
     const generalHost = this.options.host
-    const getUmdPath = (pkg: PackageOption): PackageTagAttribute => {
+    const getBrowserFilePath = (pkg: PackageOption): PackageTagAttribute => {
       const { host, path, fullPath, name } = pkg
       if (fullPath) {
         return {
           url: fullPath,
           attributes: pkg.attributes,
+          injectBefore: pkg.injectBefore,
+          injectAfter: pkg.injectAfter,
         }
       }
       let pkgInfo = {} as any
@@ -49,19 +52,29 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
        * try to guess the browser env usage file path
        * the guess order is reference from unpkg project
        * */
-      const pkgUmdPath = path !== undefined ? path : unpkg || browser || umd || ''
+      const browserFilePath = path !== undefined ? path : unpkg || browser || umd || ''
       if (!unpkgHost) {
         throw new Error(`package ${name} missing host`)
       }
-      const url = fullPath || urlJoin(unpkgHost, `${name}@${version}`, pkgUmdPath)
+      /** 是否为本地模式 */
+      const isLocal = Boolean(pkg.local !== undefined ? pkg.local : this.options.local)
+      let url = ''
+      if (isLocal) {
+        url = pathJoin('/', `${name}/${browserFilePath}`)
+        const packagePath = require.resolve(name).replace(/node_modules.+$/, `/node_modules/${name}`)
+        cpfile.sync(pathJoin(packagePath, browserFilePath), pathJoin(compiler.options.output.path || 'dist', url))
+      } else {
+        url = fullPath || urlJoin(unpkgHost, `${name}@${version}`, browserFilePath)
+      }
       return {
         url,
         version,
         attributes: pkg.attributes,
-        afterInjectTag: pkg.afterInjectTag,
+        injectBefore: pkg.injectBefore,
+        injectAfter: pkg.injectAfter,
       }
     }
-    const deps = this.options.packages.map(getUmdPath)
+    const deps = this.options.packages.map(getBrowserFilePath)
     const tags = deps.reduce<HtmlTagObject[]>((r, d) => {
       const result: HtmlTagObject = d.url.endsWith('.css')
         ? {
@@ -84,9 +97,12 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
               ...d.attributes,
             },
           }
+      if (d.injectBefore) {
+        r.push(d.injectBefore)
+      }
       r.push(result)
-      if (d.afterInjectTag) {
-        r.push(d.afterInjectTag)
+      if (d.injectAfter) {
+        r.push(d.injectAfter)
       }
       return r
     }, [])
@@ -97,9 +113,19 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
         const toPrependTags: any = []
         tags.reverse().forEach(tag => {
           const url = tag.tagName === 'script' ? tag.attributes.src : tag.attributes.href
+          /**
+           * 检查是否有重复加载的内容
+           * 如果是script则对比src
+           * 如果是link则对比href
+           * */
           const exist = data.headTags.some(headTag => {
-            const headTagUrl = headTag.tagName === 'script' ? headTag.attributes.src : headTag.attributes.href
-            return headTagUrl === url
+            if (headTag.tagName === 'script') {
+              return Boolean(headTag.attributes.src) && headTag.attributes.src === url
+            }
+            if (headTag.tagName === 'link') {
+              return headTag.attributes.href === url
+            }
+            return false
           })
           if (!exist) {
             data.headTags.unshift(tag)

@@ -16,7 +16,7 @@ describe('生成html注入script', () => {
         entry: resolveRoot('__tests__/fixture/index.js'),
         output: {
           filename: '[name].js',
-          path: resolveRoot('__tests__/output'),
+          path: resolveRoot('__tests__/output1'),
           publicPath: '/',
         },
         externals: {
@@ -25,7 +25,6 @@ describe('生成html注入script', () => {
         plugins: [
           new HtmlWebpackInjectExternalsPlugin({
             host: 'https://unpkg.com',
-            // local: true,
             packages: [
               {
                 name: 'url-join',
@@ -71,7 +70,75 @@ describe('生成html注入script', () => {
       },
       err => {
         expect(err).toBe(null)
-        expect(fs.readFileSync(resolveRoot('__tests__/output/index.html'), 'utf-8')).toMatchSnapshot()
+        expect(fs.readFileSync(resolveRoot('__tests__/output1/index.html'), 'utf-8')).toMatchSnapshot()
+        done()
+      },
+    )
+  })
+
+  it('测试local模式，fullPath不受影响', done => {
+    webpack(
+      {
+        mode: 'development',
+        entry: resolveRoot('__tests__/fixture/index.js'),
+        output: {
+          filename: '[name].js',
+          path: resolveRoot('__tests__/output2'),
+          publicPath: '/',
+        },
+        externals: {
+          lodash: '_',
+        },
+        plugins: [
+          new HtmlWebpackInjectExternalsPlugin({
+            host: 'https://unpkg.com',
+            local: true,
+            packages: [
+              {
+                name: 'url-join',
+                path: '/lib/url-join.js',
+                injectBefore: {
+                  tagName: 'script',
+                  innerHTML: 'if (typeof urljoin === undefined) { console.log("urljoin not found") }',
+                  voidTag: false,
+                  attributes: {
+                    type: 'javascript',
+                  },
+                },
+              },
+              {
+                name: 'lodash',
+                path: '/lodash.js',
+                attributes: {
+                  preload: true,
+                },
+                injectAfter: {
+                  tagName: 'script',
+                  innerHTML: 'const l = _',
+                  voidTag: false,
+                  attributes: {
+                    type: 'javascript',
+                  },
+                },
+              },
+              {
+                name: 'animate.css',
+                fullPath: 'https://unpkg.com/animate.css@4.1.0/animate.css',
+              },
+            ],
+          }),
+          new HtmlWebpackPlugin({
+            cache: false,
+            inject: 'body',
+            filename: 'index.html',
+            template: resolveRoot('public/index.html'),
+            scriptLoading: 'blocking',
+          }),
+        ],
+      },
+      err => {
+        expect(err).toBe(null)
+        expect(fs.readFileSync(resolveRoot('__tests__/output2/index.html'), 'utf-8')).toMatchSnapshot()
         done()
       },
     )

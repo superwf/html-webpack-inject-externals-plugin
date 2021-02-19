@@ -134,25 +134,60 @@ interface OPTION {
 
   // your externals dependencies
   packages: {
-    // overwrite the global host
+    /**
+     * 如果有的包需要从其他站点或路径引入，
+     * 可配置其他的类似unpkg功能的地址
+     * 一般不需要单独配置
+     * @example https://unpkg.my.com
+     * */
     host?: string
 
-    // package name
+    /**
+     * 包名称
+     * */
     name: string
 
-    // the correct script file path, as:
-    // path: `/umd/react.${isProd ? 'production.min' : 'development'}.js`
-    // optional
+    /**
+     * 需要引用的包内的文件路径
+     * @example `/umd/react.${isProd ? 'production.min' : 'development'}.js`
+     */
     path?: string
 
-    // full url with protocol, host, and path。
-    // 💡 when use `fullPath`, the `host` and `path` part will be ignored, this url will be used for the href of link tag, or src of script tag.
-    // as: http://cdnjs.com/react/react.min.prodjction.js
+    /**
+     * 使用fullPath则完全使用该项，不再从模块的package.json中自动拼接路径
+   * @example: http://cdnjs.com/react/react.min.prodjction.js
+     * */
     fullPath?: string
 
-    // customize some attributes, as: { type: 'module', async: true }
-    // optional
+    /**
+     * 定制标签属性
+    * */
     attributes?: Record<string, string | boolean>
+
+    /**
+     * 默认按path或fullPath中的后缀名判断，js为script，css为link
+     * 没有后缀默认按script
+     * 也可以使用该项指定，覆盖自动判断行为
+     * */
+    tagName?: string
+
+    /**
+     * 每个标签前面面，可以自定义一个跟随的标签
+     * 内容完全自定义
+     * */
+    injectBefore?: HtmlTagObject
+
+    /**
+     * 每个标签后面，可以自定义一个跟随的标签
+     * 内容完全自定义
+     * */
+    injectAfter?: HtmlTagObject
+
+    /**
+     * 是否采用本地模式，即将node_modules中的文件复制到发布文件夹中
+     * 使用了fullPath的package不会处理
+     * */
+    local?: boolean
   }[]
 }
 ```

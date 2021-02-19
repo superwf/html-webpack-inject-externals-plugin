@@ -3,3 +3,5 @@ node_modules
 lib
 *.vim
 *.log
+__tests__/output*
+__tests__/output*

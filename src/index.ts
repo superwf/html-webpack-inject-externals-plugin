@@ -9,7 +9,7 @@ import HtmlWebpackPlugin = require('html-webpack-plugin')
 import urlJoin from 'url-join'
 import type { Compiler, WebpackPluginInstance } from 'webpack'
 
-import type { PackageOption, PackageTagAttribute, PluginOption } from './type'
+import type { PackageOption, PackageTagAttribute, PluginOption, TagObject } from './type'
 
 export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
   public name = 'HtmlWebpackInjectExternalsPlugin'
@@ -75,8 +75,8 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
       }
     }
     const deps = this.options.packages.map(getBrowserFilePath)
-    const tags = deps.reduce<HtmlTagObject[]>((r, d) => {
-      const result: HtmlTagObject = d.url.endsWith('.css')
+    const tags = deps.reduce<TagObject[]>((r, d) => {
+      const result: TagObject = d.url.endsWith('.css')
         ? {
             tagName: 'link',
             voidTag: true,
@@ -128,7 +128,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
             return false
           })
           if (!exist) {
-            data.headTags.unshift(tag)
+            data.headTags.unshift(tag as HtmlTagObject)
             toPrependTags.push(tag)
           }
         })

@@ -111,7 +111,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(this.name, data => {
         /** remove repeat */
         const toPrependTags: any = []
-        tags.reverse().forEach(tag => {
+        ;[...tags].reverse().forEach(tag => {
           const url = tag.tagName === 'script' ? tag.attributes.src : tag.attributes.href
           /**
            * 检查是否有重复加载的内容

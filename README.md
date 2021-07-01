@@ -4,6 +4,14 @@
 
 By configure externals packages settings, auto inject script or link tag into html template.
 
+## Notice
+
+仅支持webpack > 5
+
+Only works with webpack 5 and html-webpack-plugin 5.
+
+To work with webpack 4, try `https://github.com/shirotech/webpack-cdn-plugin`.
+
 ## 介绍 / Intro
 
 与`html-webpack-plugin`一起使用，将项目中的外部依赖自动按版本号生成script或link标签，注入html文件的header中。

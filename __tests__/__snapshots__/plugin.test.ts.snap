@@ -1,28 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`生成html注入script 测试local模式 1`] = `
-"<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset=\\"utf-8\\" />
-    <title>Webpack App</title>
-    <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\" />
-  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"/url-join/lib/url-join.js\\"></script><script src=\\"/lodash/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"></head>
-  <body>
-    <div id=\\"root\\"></div>
-  <script src=\\"/main.js\\"></script></body>
-</html>
-"
-`;
-
 exports[`生成html注入script 测试local模式，fullPath不受影响 1`] = `
 "<!DOCTYPE html>
 <html>
   <head>
     <meta charset=\\"utf-8\\" />
     <title>Webpack App</title>
-    <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\" />
-  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"/url-join/lib/url-join.js\\"></script><script src=\\"/lodash/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"></head>
+  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"/url-join/lib/url-join.js\\"></script><script src=\\"/static/lodash/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"></head>
   <body>
     <div id=\\"root\\"></div>
   <script src=\\"/main.js\\"></script></body>
@@ -36,8 +20,7 @@ exports[`生成html注入script 添加script标签到head 1`] = `
   <head>
     <meta charset=\\"utf-8\\" />
     <title>Webpack App</title>
-    <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\" />
-  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"https://unpkg.com/url-join@4.0.1/lib/url-join.js\\"></script><script src=\\"https://unpkg.com/lodash@4.17.20/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"></head>
+  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"https://unpkg.com/url-join@4.0.1/lib/url-join.js\\"></script><script src=\\"https://unpkg.com/lodash@4.17.21/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"></head>
   <body>
     <div id=\\"root\\"></div>
   <script src=\\"/main.js\\"></script></body>

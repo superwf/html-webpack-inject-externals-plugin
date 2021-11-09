@@ -62,6 +62,12 @@ export type PackageOption = {
    * 使用了fullPath的package不会处理
    * */
   local?: boolean
+
+  /**
+   * 本地模式配合使用的文件夹前缀
+   * 例如 /assets 或 /static
+   * */
+  localPrefix?: string
 }
 
 /** 当前plugin的配置参数 */
@@ -89,6 +95,12 @@ export interface PluginOption {
    * 👁 @note 配置了fullPath的包不会受该属性影响
    * */
   local?: boolean
+
+  /**
+   * 本地模式配合使用的文件夹前缀
+   * 例如 /assets 或 /static
+   * */
+  localPrefix?: string
 }
 
 export type PackageTagAttribute = {

@@ -2,10 +2,10 @@
 import { existsSync } from 'fs'
 import { join as pathJoin } from 'path'
 
-import { rgb } from 'chalk'
+import chalk from 'chalk'
 import cpfile from 'cp-file'
 import type { HtmlTagObject } from 'html-webpack-plugin'
-import HtmlWebpackPlugin = require('html-webpack-plugin')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import urlJoin from 'url-join'
 import type { Compiler, WebpackPluginInstance } from 'webpack'
 
@@ -60,7 +60,8 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
       const isLocal = Boolean(pkg.local !== undefined ? pkg.local : this.options.local)
       let url = ''
       if (isLocal) {
-        url = pathJoin('/', `${name}/${browserFilePath}`)
+        const localPrefix = pkg.localPrefix || this.options.localPrefix || ''
+        url = pathJoin('/', localPrefix, `${name}/${browserFilePath}`)
         const packagePath = require.resolve(name).replace(/node_modules.+$/, `/node_modules/${name}`)
         cpfile.sync(pathJoin(packagePath, browserFilePath), pathJoin(compiler.options.output.path || 'dist', url))
       } else {
@@ -133,9 +134,9 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
           }
         })
 
-        console.log(rgb(73, 204, 144)(`[${this.name}] has prepend these resources in your html head:`))
+        console.log(chalk.rgb(73, 204, 144)(`[${this.name}] has prepend these resources in your html head:`))
         toPrependTags.forEach((tag: any) => {
-          console.log(rgb(137, 191, 4)(JSON.stringify(tag)))
+          console.log(chalk.rgb(137, 191, 4)(JSON.stringify(tag)))
         })
         return data
       })

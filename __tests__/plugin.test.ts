@@ -109,6 +109,7 @@ describe('生成html注入script', () => {
               {
                 name: 'lodash',
                 path: '/lodash.js',
+                localPrefix: 'static',
                 attributes: {
                   preload: true,
                 },

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/superwf/html-webpack-inject-externals-plugin/compare/v0.1.9...v0.1.10) (2022-01-10)
+
+
+### Bug Fixes
+
+* local mode ([bf21d0a](https://github.com/superwf/html-webpack-inject-externals-plugin/commit/bf21d0a9fbc02d9004f0ac4e5c21fa34fc9bf8fd))
+
 ### [0.1.9](https://github.com/superwf/html-webpack-inject-externals-plugin/compare/v0.1.8...v0.1.9) (2021-11-09)
 
 

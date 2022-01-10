@@ -4,8 +4,8 @@ import { join as pathJoin } from 'path'
 
 import chalk from 'chalk'
 import cpfile from 'cp-file'
-import type { HtmlTagObject } from 'html-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import type { HtmlTagObject } from 'html-webpack-plugin'
 import urlJoin from 'url-join'
 import type { Compiler, WebpackPluginInstance } from 'webpack'
 
@@ -62,8 +62,20 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
       if (isLocal) {
         const localPrefix = pkg.localPrefix || this.options.localPrefix || ''
         url = pathJoin('/', localPrefix, `${name}/${browserFilePath}`)
-        const packagePath = require.resolve(name).replace(/node_modules.+$/, `/node_modules/${name}`)
-        cpfile.sync(pathJoin(packagePath, browserFilePath), pathJoin(compiler.options.output.path || 'dist', url))
+        /**
+         * clean-webpack-plugin will remove all copied files in done hook.
+         * to work with clean-webpack-plugin, the copy task must delay to done hook
+         * */
+        compiler.hooks.done.tap('copy-vendor-file', () => {
+          const packagePath = require.resolve(name).replace(/node_modules.+$/, `/node_modules/${name}`)
+          const fromFile = pathJoin(packagePath, browserFilePath)
+          const toFile = pathJoin(compiler.options.output.path || 'dist', url)
+          cpfile.sync(fromFile, toFile)
+          const fromFileMap = `${fromFile}.map`
+          if (existsSync(fromFileMap)) {
+            cpfile.sync(fromFileMap, `${toFile}.map`)
+          }
+        })
       } else {
         url = fullPath || urlJoin(unpkgHost, `${name}@${version}`, browserFilePath)
       }

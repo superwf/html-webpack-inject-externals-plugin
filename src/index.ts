@@ -61,7 +61,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
       let url = ''
       if (isLocal) {
         const localPrefix = pkg.localPrefix || this.options.localPrefix || ''
-        url = pathJoin('/', localPrefix, `${name}/${browserFilePath}`)
+        url = pathJoin('/', localPrefix, `${name}@${pkgInfo.version}/${browserFilePath}`)
         /**
          * clean-webpack-plugin will remove all copied files in done hook.
          * to work with clean-webpack-plugin, the copy task must delay to done hook

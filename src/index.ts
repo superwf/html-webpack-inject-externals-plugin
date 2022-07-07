@@ -53,9 +53,6 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
        * the guess order is reference from unpkg project
        * */
       const browserFilePath = path !== undefined ? path : unpkg || browser || umd || ''
-      if (!unpkgHost) {
-        throw new Error(`package ${name} missing host`)
-      }
       /** 是否为本地模式 */
       const isLocal = Boolean(pkg.local !== undefined ? pkg.local : this.options.local)
       let url = ''
@@ -77,6 +74,9 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
           }
         })
       } else {
+        if (!unpkgHost) {
+          throw new Error(`package ${name} missing host`)
+        }
         url = fullPath || urlJoin(unpkgHost, `${name}@${version}`, browserFilePath)
       }
       return {

@@ -23,13 +23,14 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
   public apply(compiler: Compiler) {
     const generalHost = this.options.host
     const getBrowserFilePath = (pkg: PackageOption): PackageTagAttribute => {
-      const { host, path, fullPath, name } = pkg
+      const { host, path, fullPath, name, position } = pkg
       if (fullPath) {
         return {
           url: fullPath,
           attributes: pkg.attributes,
           injectBefore: pkg.injectBefore,
           injectAfter: pkg.injectAfter,
+          position: position || 'head',
         }
       }
       let pkgInfo = {} as any
@@ -85,6 +86,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
         attributes: pkg.attributes,
         injectBefore: pkg.injectBefore,
         injectAfter: pkg.injectAfter,
+        position: position || 'head',
       }
     }
     const deps = this.options.packages.map(getBrowserFilePath)
@@ -93,6 +95,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
         ? {
             tagName: 'link',
             voidTag: true,
+            position: d.position,
             attributes: {
               rel: 'stylesheet',
               href: d.url,
@@ -103,6 +106,7 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
         : {
             tagName: 'script',
             voidTag: false,
+            position: d.position,
             attributes: {
               defer: false,
               src: d.url,
@@ -123,25 +127,26 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
     compiler.hooks.compilation.tap(this.name, compilation => {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(this.name, data => {
         /** remove repeat */
-        const toPrependTags: any = []
+        const toPrependTags: any[] = []
         ;[...tags].reverse().forEach(tag => {
           const url = tag.tagName === 'script' ? tag.attributes.src : tag.attributes.href
+          const dataTags = tag.position === 'body' ? data.bodyTags : data.headTags
           /**
            * 检查是否有重复加载的内容
            * 如果是script则对比src
            * 如果是link则对比href
            * */
-          const exist = data.headTags.some(headTag => {
-            if (headTag.tagName === 'script') {
-              return Boolean(headTag.attributes.src) && headTag.attributes.src === url
+          const exist = dataTags.some(dt => {
+            if (dt.tagName === 'script') {
+              return Boolean(dt.attributes.src) && dt.attributes.src === url
             }
-            if (headTag.tagName === 'link') {
-              return headTag.attributes.href === url
+            if (dt.tagName === 'link') {
+              return dt.attributes.href === url
             }
             return false
           })
           if (!exist) {
-            data.headTags.unshift(tag as HtmlTagObject)
+            dataTags.unshift(tag as HtmlTagObject)
             toPrependTags.push(tag)
           }
         })

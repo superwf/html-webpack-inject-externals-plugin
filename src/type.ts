@@ -2,6 +2,7 @@ import type { HtmlTagObject } from 'html-webpack-plugin'
 
 export type TagObject = Omit<HtmlTagObject, 'meta'> & {
   meta?: HtmlTagObject['meta']
+  position?: 'head' | 'body'
 }
 
 /** 每个外部模块的加载配置 */
@@ -68,6 +69,12 @@ export type PackageOption = {
    * 例如 /assets 或 /static
    * */
   localPrefix?: string
+
+  /**
+   * 该脚本放在head或body中
+   * @default 'head'
+   * */
+  position?: 'head' | 'body'
 }
 
 /** 当前plugin的配置参数 */
@@ -109,4 +116,5 @@ export type PackageTagAttribute = {
   attributes?: Record<string, string | boolean>
   injectBefore?: TagObject
   injectAfter?: TagObject
+  position?: 'head' | 'body'
 }

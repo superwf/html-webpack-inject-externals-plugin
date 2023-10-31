@@ -55,6 +55,7 @@ describe('生成html注入script', () => {
               },
               {
                 name: 'animate.css',
+                position: 'body',
                 fullPath: 'https://unpkg.com/animate.css@4.1.0/animate.css',
               },
             ],
@@ -70,7 +71,9 @@ describe('生成html注入script', () => {
       },
       err => {
         expect(err).toBe(null)
-        expect(fs.readFileSync(resolveRoot('__tests__/output1/index.html'), 'utf-8')).toMatchSnapshot()
+        const res = fs.readFileSync(resolveRoot('__tests__/output1/index.html'), 'utf-8')
+        console.log(res)
+        expect(res).toMatchSnapshot()
         done()
       },
     )

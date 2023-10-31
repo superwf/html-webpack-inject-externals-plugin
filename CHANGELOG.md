@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/superwf/html-webpack-inject-externals-plugin/compare/v0.1.12...v0.1.13) (2023-10-31)
+
+
+### Features
+
+* add position param for each package ([64a39ef](https://github.com/superwf/html-webpack-inject-externals-plugin/commit/64a39efd7dffcea8d812b6f1cb3367564133aec9))
+
 ### [0.1.12](https://github.com/superwf/html-webpack-inject-externals-plugin/compare/v0.1.11...v0.1.12) (2022-07-07)
 
 

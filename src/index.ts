@@ -115,10 +115,16 @@ export class HtmlWebpackInjectExternalsPlugin implements WebpackPluginInstance {
             },
           }
       if (d.injectBefore) {
+        if (!d.injectBefore.position) {
+          d.injectBefore.position = d.position
+        }
         r.push(d.injectBefore)
       }
       r.push(result)
       if (d.injectAfter) {
+        if (!d.injectAfter.position) {
+          d.injectAfter.position = d.position
+        }
         r.push(d.injectAfter)
       }
       return r

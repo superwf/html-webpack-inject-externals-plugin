@@ -20,10 +20,10 @@ exports[`生成html注入script 添加script标签到head 1`] = `
   <head>
     <meta charset=\\"utf-8\\" />
     <title>Webpack App</title>
-  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"https://unpkg.com/url-join@4.0.1/lib/url-join.js\\"></script><script src=\\"https://unpkg.com/lodash@4.17.21/lodash.js\\" preload></script><script type=\\"javascript\\">const l = _</script></head>
+  <script type=\\"javascript\\">if (typeof urljoin === undefined) { console.log(\\"urljoin not found\\") }</script><script src=\\"https://unpkg.com/url-join@4.0.1/lib/url-join.js\\"></script></head>
   <body>
     <div id=\\"root\\"></div>
-  <link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"><script src=\\"/main.js\\"></script></body>
+  <script src=\\"https://unpkg.com/lodash@4.17.21/lodash.js\\" preload></script><script type=\\"javascript\\">const lodashInBody = _</script><link rel=\\"stylesheet\\" href=\\"https://unpkg.com/animate.css@4.1.0/animate.css\\"><script src=\\"/main.js\\"></script></body>
 </html>
 "
 `;

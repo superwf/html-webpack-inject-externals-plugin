@@ -41,12 +41,13 @@ describe('生成html注入script', () => {
               {
                 name: 'lodash',
                 path: '/lodash.js',
+                position: 'body',
                 attributes: {
                   preload: true,
                 },
                 injectAfter: {
                   tagName: 'script',
-                  innerHTML: 'const l = _',
+                  innerHTML: 'const lodashInBody = _',
                   voidTag: false,
                   attributes: {
                     type: 'javascript',
